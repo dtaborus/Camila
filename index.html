@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Una historia</title>
+
+<style>
+:root{
+  --bg1:#0b0b0f;
+  --bg2:#15152a;
+  --card:#ffffff10;
+  --stroke:#ffffff25;
+  --text:#ffffff;
+  --muted:#ffffffcc;
+  --accent:#ff4fb2;
+}
+*{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+body{
+  margin:0; min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  background:
+    radial-gradient(900px 600px at 20% 25%, #7c5cff22 0%, transparent 60%),
+    radial-gradient(900px 600px at 80% 30%, #ff4fb222 0%, transparent 60%),
+    linear-gradient(135deg,var(--bg1),var(--bg2));
+  color:var(--text);
+  padding:24px;
+}
+
+.wrap{width:min(980px,96vw);display:flex;flex-direction:column;gap:16px}
+.card{
+  border:1px solid var(--stroke);
+  background:var(--card);
+  backdrop-filter: blur(10px);
+  border-radius:18px;
+  padding:18px;
+  box-shadow:0 24px 60px rgba(0,0,0,.55);
+}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.title{font-size:18px;font-weight:800}
+
+.dots{display:flex;gap:8px}
+.dot{width:10px;height:10px;border-radius:50%;background:#ffffff33}
+.dot.active{background:var(--accent)}
+
+/* STAGE + transición */
+.stage{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:14px;min-height:62vh;
+  opacity:1;transform:translateY(0);
+  transition:opacity .35s ease,transform .35s ease;
+}
+.stage.fade{opacity:0;transform:translateY(10px)}
+
+.intro{text-align:center;max-width:720px}
+.intro h1{font-size:28px;margin:0 0 10px}
+.intro p{color:var(--muted);line-height:1.6}
+
+img{
+  width:100%;max-width:900px;max-height:62vh;
+  object-fit:contain;border-radius:16px;
+  box-shadow:0 22px 55px rgba(0,0,0,.6);
+  display:none;
+}
+
+/* Caja de frases */
+.phraseBox{
+  display:none;
+  max-width:900px;width:100%;
+  border:1px solid var(--stroke);
+  background:#ffffff0f;
+  border-radius:16px;
+  padding:18px;
+  text-align:center;
+}
+.phraseTag{
+  display:inline-block;font-size:12px;opacity:.75;
+  padding:6px 10px;border:1px solid var(--stroke);
+  border-radius:999px;background:#ffffff10;margin-bottom:8px;
+}
+.phraseText{
+  font-size:18px;color:var(--muted);
+  line-height:1.55;min-height:40px;
+}
+
+/* Typewriter */
+.typewriter::after{
+  content:"|";margin-left:4px;animation:blink .9s infinite;
+}
+@keyframes blink{50%{opacity:0}}
+
+.finalBox{
+  display:none;max-width:900px;width:100%;
+  border:1px solid var(--stroke);
+  background:#ffffff0f;border-radius:16px;padding:14px;text-align:center;
+}
+.finalMsg{font-size:18px;font-weight:800;margin-bottom:10px}
+.panel{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.answer{display:none;margin-top:12px;padding:12px;border-radius:14px;
+  border:1px solid var(--stroke);background:#ffffff12;color:var(--muted)}
+.answer.show{display:block}
+
+.controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+button{
+  border:1px solid var(--stroke);background:#ffffff10;color:#fff;
+  padding:12px 14px;border-radius:14px;font-weight:800;cursor:pointer;
+}
+button.primary{border:none;background:linear-gradient(135deg,#ff4fb2,#7c5cff)}
+button.ghost{background:transparent}
+button:hover{transform:translateY(-1px)}
+
+.small{font-size:12px;opacity:.7;text-align:center;margin-top:8px}
+
+@media(max-width:520px){
+  .intro h1{font-size:22px}
+  img{max-height:56vh}
+  .phraseText{font-size:16px}
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <div class="card">
+    <div class="top">
+      <div class="title">Maria Camila...</div>
+      <div class="dots" id="dots"></div>
+    </div>
+
+    <div class="stage" id="stage">
+
+      <!-- INTRO -->
+      <div class="intro" id="intro">
+        <h1>Una historia en 4 momentos</h1>
+        <p>A veces una historia no empieza con palabras…<br>empieza con miradas.</p>
+        <p class="small">Pulsa “Iniciar”</p>
+      </div>
+
+      <!-- FRASE -->
+      <div class="phraseBox" id="phraseBox">
+        <div class="phraseTag" id="phraseTag"></div>
+        <div class="phraseText" id="phraseText"></div>
+      </div>
+
+      <!-- FOTO -->
+      <img id="photo" alt="foto">
+
+      <!-- FINAL -->
+      <div class="finalBox" id="finalBox">
+        <div class="finalMsg">Me gustas.<br>Y quería que lo supieras de una forma diferente.</div>
+        <div class="panel">
+          <button class="primary" id="btnCafe">☕ ¿Un café?</button>
+          <button id="btnSonrisa">😊 Me sacaste una sonrisa</button>
+          <button class="ghost" id="btnSinPresion">🫶 Sin presión</button>
+        </div>
+        <div class="answer" id="answer"></div>
+        <div class="small">— Danny</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="primary" id="btnStart">▶ Iniciar</button>
+    <button id="btnBack" disabled>⏮ Atrás</button>
+    <button id="btnNext" disabled>⏭ Continuar</button>
+    <button class="ghost" id="btnMusic" disabled>🔈 Música</button>
+  </div>
+
+  <audio id="audio" loop>
+    <source src="musica.mp3" type="audio/mpeg">
+  </audio>
+
+</div>
+
+<script>
+/* CONFIG */
+const PHOTOS=["foto1.jpg","foto2.jpg","foto3.jpg","foto4.jpg"];
+const PHRASES=[
+  "Este fue uno de esos momentos que no se planean.",
+  "Donde todo se siente fácil… natural.",
+  "Donde sin decir nada, ya se está diciendo mucho.",
+  "Y aquí es donde todo cobra sentido."
+];
+const RESPUESTAS={
+  cafe:"Listo 😌. Cuando tú quieras, sin presión.",
+  sonrisa:"Con eso ya gané 😊",
+  sinpresion:"Todo bien, solo quería ser honesto 🫶"
+};
+
+/* ELEMENTOS */
+const stage=document.getElementById("stage");
+const intro=document.getElementById("intro");
+const phraseBox=document.getElementById("phraseBox");
+const phraseText=document.getElementById("phraseText");
+const phraseTag=document.getElementById("phraseTag");
+const photo=document.getElementById("photo");
+const finalBox=document.getElementById("finalBox");
+const answer=document.getElementById("answer");
+const dots=document.getElementById("dots");
+
+const btnStart=document.getElementById("btnStart");
+const btnBack=document.getElementById("btnBack");
+const btnNext=document.getElementById("btnNext");
+const btnMusic=document.getElementById("btnMusic");
+const audio=document.getElementById("audio");
+
+/* DOTS */
+const dotEls=[];
+PHOTOS.forEach(()=>{const d=document.createElement("div");d.className="dot";dots.appendChild(d);dotEls.push(d)});
+
+/* STATE */
+let step=-1, started=false, musicOn=false;
+
+/* TYPEWRITER */
+function typeText(el,text,speed=35){
+  el.textContent="";el.classList.add("typewriter");
+  let i=0;(function t(){if(i<text.length){el.textContent+=text[i++];setTimeout(t,speed)}
+  else el.classList.remove("typewriter")})();
+}
+
+/* RENDER */
+function render(){
+  intro.style.display=phraseBox.style.display=photo.style.display=finalBox.style.display="none";
+  btnBack.disabled=!started||step<=-1;
+  btnNext.disabled=!started||step>=8;
+
+  dotEls.forEach(d=>d.classList.remove("active"));
+
+  if(step===-1){intro.style.display="block";return}
+
+  if(step%2===0 && step<=6){
+    const i=step/2;
+    phraseBox.style.display="block";
+    phraseTag.textContent="Momento "+(i+1);
+    typeText(phraseText,PHRASES[i]);
+    return;
+  }
+
+  if(step%2===1 && step<=7){
+    const i=(step-1)/2;
+    photo.src=PHOTOS[i];
+    photo.style.display="block";
+    dotEls[i].classList.add("active");
+    return;
+  }
+
+  if(step===8){finalBox.style.display="block"}
+}
+
+/* TRANSICIÓN */
+function go(n){
+  stage.classList.add("fade");
+  setTimeout(()=>{step=n;render();stage.classList.remove("fade")},350);
+}
+
+/* CONTROLES */
+btnStart.onclick=()=>{started=true;btnNext.disabled=false;btnMusic.disabled=false;btnStart.disabled=true;go(0);toggleMusic(true)};
+btnNext.onclick=()=>{if(step<8)go(step+1)};
+btnBack.onclick=()=>{if(step>-1)go(step-1)};
+btnMusic.onclick=()=>toggleMusic();
+
+function toggleMusic(force){
+  const on=force??!musicOn;
+  if(on){audio.play().then(()=>musicOn=true).catch(()=>{})}
+  else{audio.pause();musicOn=false}
+}
+
+/* FINAL */
+document.getElementById("btnCafe").onclick=()=>{answer.textContent=RESPUESTAS.cafe;answer.classList.add("show")};
+document.getElementById("btnSonrisa").onclick=()=>{answer.textContent=RESPUESTAS.sonrisa;answer.classList.add("show")};
+document.getElementById("btnSinPresion").onclick=()=>{answer.textContent=RESPUESTAS.sinpresion;answer.classList.add("show")};
+
+render();
+</script>
+</body>
+</html>
