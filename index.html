@@ -135,7 +135,7 @@ button:hover{transform:translateY(-1px)}
       <div class="intro" id="intro">
         <h1>Maria Camila Velez</h1>
         <p>Quiero decirte qué...<br></p>
-        <p class="small">Pulsa “Iniciar”</p>
+        <p class="small">Pulsa "Iniciar"</p>
       </div>
 
       <!-- FRASE -->
@@ -185,9 +185,9 @@ const PHRASES=[
   "Te quiero y no imaginas cuanto❤️"
 ];
 const RESPUESTAS={
-  🖤:"Te",
-  🤍:"Quiero",
-  🩵:"Con mi alma"
+  "🖤":"Te ☕",
+  "🤍":"Quiero 😊",
+  "🩵":"Con mi alma 🫶"
 };
 
 /* ELEMENTOS */
@@ -269,14 +269,11 @@ function toggleMusic(force){
 }
 
 /* FINAL */
-document.getElementById("btnCafe").onclick=()=>{answer.textContent=RESPUESTAS.cafe;answer.classList.add("show")};
-document.getElementById("btnSonrisa").onclick=()=>{answer.textContent=RESPUESTAS.sonrisa;answer.classList.add("show")};
-document.getElementById("btnSinPresion").onclick=()=>{answer.textContent=RESPUESTAS.sinpresion;answer.classList.add("show")};
+document.getElementById("btn🖤").onclick=()=>{answer.textContent=RESPUESTAS["🖤"];answer.classList.add("show")};
+document.getElementById("btn🤍").onclick=()=>{answer.textContent=RESPUESTAS["🤍"];answer.classList.add("show")};
+document.getElementById("btn🩵").onclick=()=>{answer.textContent=RESPUESTAS["🩵"];answer.classList.add("show")};
 
 render();
 </script>
 </body>
 </html>
-
-
-
