@@ -125,8 +125,7 @@ button:hover{transform:translateY(-1px)}
   <div class="card">
     <div class="top">
       <div class="title">Maria Camila 💙</div>
-      <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZXN5ZWNrN3BreGlrbnZnNGg1OWNyOWlpaTB1dmh5bGd5dGhuZjB2ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Zl7u48zLVFgLpRwq6f/giphy.gif" alt="Descripción" style="width: 100%; max-width: 300px;">
-    <div class="dots" id="dots"></div>
+      <div class="dots" id="dots"></div>
     </div>
 
     <div class="stage" id="stage">
@@ -151,9 +150,9 @@ button:hover{transform:translateY(-1px)}
       <div class="finalBox" id="finalBox">
         <div class="finalMsg">Y <br>Es por eso que..</div>
         <div class="panel">
-          <button class="primary" id="btn🖤">☕ Te</button>
-          <button id="btn🤍">😊 Quiero</button>
-          <button class="ghost" id="btn🩵">🫶 Con mi alma</button>
+          <button class="primary" id="btnCafe">☕ Te</button>
+          <button id="btnSonrisa">😊 Quiero</button>
+          <button class="ghost" id="btnSinPresion">🫶 Con mi alma</button>
         </div>
         <div class="answer" id="answer"></div>
         <div class="small">— Danny</div>
@@ -185,9 +184,9 @@ const PHRASES=[
   "Te quiero y no imaginas cuanto❤️"
 ];
 const RESPUESTAS={
-  "🖤":"Te ☕",
-  "🤍":"Quiero 😊",
-  "🩵":"Con mi alma 🫶"
+  cafe:"Te ☕",
+  sonrisa:"Quiero 😊",
+  sinpresion:"Con mi alma 🫶"
 };
 
 /* ELEMENTOS */
@@ -269,9 +268,9 @@ function toggleMusic(force){
 }
 
 /* FINAL */
-document.getElementById("btn🖤").onclick=()=>{answer.textContent=RESPUESTAS["🖤"];answer.classList.add("show")};
-document.getElementById("btn🤍").onclick=()=>{answer.textContent=RESPUESTAS["🤍"];answer.classList.add("show")};
-document.getElementById("btn🩵").onclick=()=>{answer.textContent=RESPUESTAS["🩵"];answer.classList.add("show")};
+document.getElementById("btnCafe").onclick=()=>{answer.textContent=RESPUESTAS.cafe;answer.classList.add("show")};
+document.getElementById("btnSonrisa").onclick=()=>{answer.textContent=RESPUESTAS.sonrisa;answer.classList.add("show")};
+document.getElementById("btnSinPresion").onclick=()=>{answer.textContent=RESPUESTAS.sinpresion;answer.classList.add("show")};
 
 render();
 </script>
