@@ -123,11 +123,12 @@ img{
   left:0;
   width:100%;
   height:50%;
-  background:linear-gradient(135deg, #ff4fb280, #7c5cff80);
+  background:linear-gradient(135deg, #ff6bc280, #9d7cff80);
   border-radius:8px 8px 0 0;
   transform-origin:top center;
   transition:transform .8s ease;
-  border-bottom:2px solid rgba(255,255,255,.2);
+  border-bottom:2px solid rgba(255,255,255,.3);
+  z-index:2;
 }
 
 .envelope.opened .envelopeFlap{
@@ -144,6 +145,7 @@ img{
   color:white;
   text-shadow:0 2px 10px rgba(0,0,0,.3);
   transition:opacity .4s ease;
+  z-index:1;
 }
 
 .envelope.opened .envelopeLabel{
@@ -162,43 +164,44 @@ img{
   box-shadow:0 10px 40px rgba(0,0,0,.3);
   opacity:0;
   transition:all 1s ease;
-  font-family:'Brush Script MT', cursive, system-ui;
+  z-index:3;
 }
 
 .envelope.opened .letter{
   opacity:1;
-  transform:translateX(-50%) translateY(-120px);
+  transform:translateX(-50%) translateY(-140px);
 }
 
 .letterContent{
   color:#2d2d2d;
-  line-height:1.8;
-  font-size:16px;
+  line-height:1.7;
+  font-size:15px;
 }
 
 .letterContent p{
-  margin:0 0 15px;
-  font-style:italic;
+  margin:0 0 12px;
 }
 
 .letterContent .greeting{
-  font-size:18px;
+  font-size:17px;
   font-weight:800;
-  margin-bottom:20px;
+  margin-bottom:15px;
   color:#ff4fb2;
+  font-style:italic;
 }
 
 .letterContent .signature{
   text-align:right;
-  margin-top:25px;
-  font-size:18px;
+  margin-top:20px;
+  font-size:16px;
   font-weight:800;
   color:#7c5cff;
+  font-style:italic;
 }
 
 .finalButtons{
   display:none;
-  margin-top:140px;
+  margin-top:160px;
   gap:10px;
   justify-content:center;
   flex-wrap:wrap;
@@ -242,8 +245,10 @@ button:hover{transform:translateY(-1px)}
   .intro h1{font-size:22px}
   img{max-height:56vh}
   .phraseText{font-size:16px}
-  .letterContent{font-size:14px}
-  .letter{padding:20px 18px}
+  .letterContent{font-size:13px;line-height:1.6}
+  .letter{padding:20px 15px}
+  .envelope{height:240px}
+  .finalButtons{margin-top:120px}
 }
 </style>
 </head>
@@ -386,13 +391,20 @@ envelope.onclick=()=>{
 
 /* RENDER */
 function render(){
-  intro.style.display=phraseBox.style.display=photo.style.display=letterBox.style.display="none";
+  intro.style.display="none";
+  phraseBox.style.display="none";
+  photo.style.display="none";
+  letterBox.style.display="none";
+  
   btnBack.disabled=!started||step<=-1;
   btnNext.disabled=!started||step>=8;
 
   dotEls.forEach(d=>d.classList.remove("active"));
 
-  if(step===-1){intro.style.display="block";return}
+  if(step===-1){
+    intro.style.display="block";
+    return;
+  }
 
   if(step%2===0 && step<=6){
     const i=step/2;
@@ -418,28 +430,68 @@ function render(){
 /* TRANSICIÓN */
 function go(n){
   stage.classList.add("fade");
-  setTimeout(()=>{step=n;render();stage.classList.remove("fade")},350);
+  setTimeout(()=>{
+    step=n;
+    render();
+    stage.classList.remove("fade");
+  },350);
 }
 
 /* CONTROLES */
-btnStart.onclick=()=>{started=true;btnNext.disabled=false;btnMusic.disabled=false;btnStart.disabled=true;go(0);toggleMusic(true)};
-btnNext.onclick=()=>{if(step<8)go(step+1)};
-btnBack.onclick=()=>{if(step>-1)go(step-1)};
+btnStart.onclick=()=>{
+  started=true;
+  btnNext.disabled=false;
+  btnMusic.disabled=false;
+  btnStart.disabled=true;
+  go(0);
+  toggleMusic(true);
+};
+
+btnNext.onclick=()=>{
+  if(step<8) go(step+1);
+};
+
+btnBack.onclick=()=>{
+  if(step>-1){
+    // Si vamos hacia atrás desde la carta, resetear el estado
+    if(step===8){
+      letterOpened=false;
+      envelope.classList.remove("opened");
+      finalButtons.classList.remove("show");
+    }
+    go(step-1);
+  }
+};
+
 btnMusic.onclick=()=>toggleMusic();
 
 function toggleMusic(force){
   const on=force??!musicOn;
-  if(on){audio.play().then(()=>musicOn=true).catch(()=>{})}
-  else{audio.pause();musicOn=false}
+  if(on){
+    audio.play().then(()=>musicOn=true).catch(()=>{});
+  }else{
+    audio.pause();
+    musicOn=false;
+  }
 }
 
 /* FINAL */
-document.getElementById("btnCafe").onclick=()=>{answer.textContent=RESPUESTAS.cafe;answer.classList.add("show")};
-document.getElementById("btnSonrisa").onclick=()=>{answer.textContent=RESPUESTAS.sonrisa;answer.classList.add("show")};
-document.getElementById("btnSinPresion").onclick=()=>{answer.textContent=RESPUESTAS.sinpresion;answer.classList.add("show")};
+document.getElementById("btnCafe").onclick=()=>{
+  answer.textContent=RESPUESTAS.cafe;
+  answer.classList.add("show");
+};
+
+document.getElementById("btnSonrisa").onclick=()=>{
+  answer.textContent=RESPUESTAS.sonrisa;
+  answer.classList.add("show");
+};
+
+document.getElementById("btnSinPresion").onclick=()=>{
+  answer.textContent=RESPUESTAS.sinpresion;
+  answer.classList.add("show");
+};
 
 render();
 </script>
 </body>
 </html>
-
