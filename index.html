@@ -89,21 +89,148 @@ img{
 }
 @keyframes blink{50%{opacity:0}}
 
-.finalBox{
-  display:none;max-width:900px;width:100%;
-  border:1px solid var(--stroke);
-  background:#ffffff0f;border-radius:16px;padding:14px;text-align:center;
+/* CARTA ANIMADA */
+.letterBox{
+  display:none;
+  max-width:600px;
+  width:100%;
+  position:relative;
+  perspective:1000px;
 }
-.finalMsg{font-size:18px;font-weight:800;margin-bottom:10px}
-.panel{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.answer{display:none;margin-top:12px;padding:12px;border-radius:14px;
-  border:1px solid var(--stroke);background:#ffffff12;color:var(--muted)}
+
+.envelope{
+  position:relative;
+  width:100%;
+  height:280px;
+  background:linear-gradient(135deg, #ff4fb2, #7c5cff);
+  border-radius:8px;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+  cursor:pointer;
+  transition:transform .3s ease;
+}
+
+.envelope:hover{
+  transform:translateY(-5px);
+}
+
+.envelope.opened{
+  cursor:default;
+}
+
+.envelopeFlap{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:50%;
+  background:linear-gradient(135deg, #ff4fb280, #7c5cff80);
+  border-radius:8px 8px 0 0;
+  transform-origin:top center;
+  transition:transform .8s ease;
+  border-bottom:2px solid rgba(255,255,255,.2);
+}
+
+.envelope.opened .envelopeFlap{
+  transform:rotateX(-180deg);
+}
+
+.envelopeLabel{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  font-size:18px;
+  font-weight:800;
+  color:white;
+  text-shadow:0 2px 10px rgba(0,0,0,.3);
+  transition:opacity .4s ease;
+}
+
+.envelope.opened .envelopeLabel{
+  opacity:0;
+}
+
+.letter{
+  position:absolute;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%) translateY(0);
+  width:90%;
+  background:linear-gradient(to bottom, #fffef7, #fff9e6);
+  border-radius:8px;
+  padding:30px 25px;
+  box-shadow:0 10px 40px rgba(0,0,0,.3);
+  opacity:0;
+  transition:all 1s ease;
+  font-family:'Brush Script MT', cursive, system-ui;
+}
+
+.envelope.opened .letter{
+  opacity:1;
+  transform:translateX(-50%) translateY(-120px);
+}
+
+.letterContent{
+  color:#2d2d2d;
+  line-height:1.8;
+  font-size:16px;
+}
+
+.letterContent p{
+  margin:0 0 15px;
+  font-style:italic;
+}
+
+.letterContent .greeting{
+  font-size:18px;
+  font-weight:800;
+  margin-bottom:20px;
+  color:#ff4fb2;
+}
+
+.letterContent .signature{
+  text-align:right;
+  margin-top:25px;
+  font-size:18px;
+  font-weight:800;
+  color:#7c5cff;
+}
+
+.finalButtons{
+  display:none;
+  margin-top:140px;
+  gap:10px;
+  justify-content:center;
+  flex-wrap:wrap;
+  animation:fadeInUp 1s ease forwards;
+}
+
+.finalButtons.show{
+  display:flex;
+}
+
+@keyframes fadeInUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.answer{
+  display:none;
+  margin-top:12px;
+  padding:12px;
+  border-radius:14px;
+  border:1px solid var(--stroke);
+  background:#ffffff12;
+  color:var(--muted);
+  text-align:center;
+}
 .answer.show{display:block}
 
 .controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 button{
   border:1px solid var(--stroke);background:#ffffff10;color:#fff;
   padding:12px 14px;border-radius:14px;font-weight:800;cursor:pointer;
+  transition:all .2s ease;
 }
 button.primary{border:none;background:linear-gradient(135deg,#ff4fb2,#7c5cff)}
 button.ghost{background:transparent}
@@ -115,6 +242,8 @@ button:hover{transform:translateY(-1px)}
   .intro h1{font-size:22px}
   img{max-height:56vh}
   .phraseText{font-size:16px}
+  .letterContent{font-size:14px}
+  .letter{padding:20px 18px}
 }
 </style>
 </head>
@@ -146,16 +275,38 @@ button:hover{transform:translateY(-1px)}
       <!-- FOTO -->
       <img id="photo" alt="foto">
 
-      <!-- FINAL -->
-      <div class="finalBox" id="finalBox">
-        <div class="finalMsg">Y <br>Es por eso que..</div>
-        <div class="panel">
+      <!-- CARTA FINAL -->
+      <div class="letterBox" id="letterBox">
+        <div class="envelope" id="envelope">
+          <div class="envelopeFlap"></div>
+          <div class="envelopeLabel">💌 Toca para abrir 💌</div>
+          
+          <div class="letter">
+            <div class="letterContent">
+              <p class="greeting">Mi amor,</p>
+              
+              <p>Quiero que sepas algo importante: me siento increíblemente afortunado de tenerte en mi vida. Cada día a tu lado es un regalo que valoro profundamente.</p>
+              
+              <p>Eres una mujer extraordinaria, fuerte, brillante y con un corazón hermoso. A veces las palabras se quedan cortas para expresar todo lo que significas para mí.</p>
+              
+              <p>Quiero recordarte algo que nunca debes olvidar: vales muchísimo. Tu valor no lo determina nadie más que tú misma. Eres suficiente, eres completa, eres increíble tal como eres.</p>
+              
+              <p>Nunca aceptes menos de lo que mereces, nunca permitas que alguien apague tu luz o cuestione tu valor. Porque créeme cuando te digo: vales oro.</p>
+              
+              <p>Y yo estaré aquí, a tu lado, admirándote y apoyándote siempre.</p>
+              
+              <p class="signature">Con todo mi amor,<br>Danny 💙</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="finalButtons" id="finalButtons">
           <button class="primary" id="btnCafe">☕ Te</button>
           <button id="btnSonrisa">😊 Quiero</button>
           <button class="ghost" id="btnSinPresion">🫶 Con mi alma</button>
         </div>
+        
         <div class="answer" id="answer"></div>
-        <div class="small">— Danny</div>
       </div>
 
     </div>
@@ -196,7 +347,9 @@ const phraseBox=document.getElementById("phraseBox");
 const phraseText=document.getElementById("phraseText");
 const phraseTag=document.getElementById("phraseTag");
 const photo=document.getElementById("photo");
-const finalBox=document.getElementById("finalBox");
+const letterBox=document.getElementById("letterBox");
+const envelope=document.getElementById("envelope");
+const finalButtons=document.getElementById("finalButtons");
 const answer=document.getElementById("answer");
 const dots=document.getElementById("dots");
 
@@ -211,7 +364,7 @@ const dotEls=[];
 PHOTOS.forEach(()=>{const d=document.createElement("div");d.className="dot";dots.appendChild(d);dotEls.push(d)});
 
 /* STATE */
-let step=-1, started=false, musicOn=false;
+let step=-1, started=false, musicOn=false, letterOpened=false;
 
 /* TYPEWRITER */
 function typeText(el,text,speed=35){
@@ -220,9 +373,20 @@ function typeText(el,text,speed=35){
   else el.classList.remove("typewriter")})();
 }
 
+/* ABRIR CARTA */
+envelope.onclick=()=>{
+  if(!letterOpened){
+    envelope.classList.add("opened");
+    letterOpened=true;
+    setTimeout(()=>{
+      finalButtons.classList.add("show");
+    },1200);
+  }
+};
+
 /* RENDER */
 function render(){
-  intro.style.display=phraseBox.style.display=photo.style.display=finalBox.style.display="none";
+  intro.style.display=phraseBox.style.display=photo.style.display=letterBox.style.display="none";
   btnBack.disabled=!started||step<=-1;
   btnNext.disabled=!started||step>=8;
 
@@ -246,7 +410,9 @@ function render(){
     return;
   }
 
-  if(step===8){finalBox.style.display="block"}
+  if(step===8){
+    letterBox.style.display="block";
+  }
 }
 
 /* TRANSICIÓN */
@@ -276,3 +442,4 @@ render();
 </script>
 </body>
 </html>
+
