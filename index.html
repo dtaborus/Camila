@@ -7,167 +7,235 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-X2VFW2R5B5');
 </script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>CxD</title>
-
+<title>CxD · El Principito</title>
 <style>
 :root{
-  --bg1:#0b0b0f;
-  --bg2:#15152a;
-  --card:#ffffff10;
-  --stroke:#ffffff25;
-  --text:#ffffff;
-  --muted:#ffffffcc;
-  --accent:#ff4fb2;
+  --bg1:#050414;
+  --bg2:#0a1233;
+  --night:#0c1a44;
+  --card:#ffffff0a;
+  --stroke:#ffffff22;
+  --text:#fdf6e3;
+  --muted:#e9e5ffcc;
+  --gold:#f5c451;
+  --rose:#ff7a9c;
+  --blue:#6ea8d8;
 }
-*{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+*{box-sizing:border-box;font-family:'Georgia','Iowan Old Style',serif}
 body{
   margin:0; min-height:100vh;
   display:flex; align-items:center; justify-content:center;
   background:
-    radial-gradient(900px 600px at 20% 25%, #7c5cff22 0%, transparent 60%),
-    radial-gradient(900px 600px at 80% 30%, #ff4fb222 0%, transparent 60%),
-    linear-gradient(135deg,var(--bg1),var(--bg2));
+    radial-gradient(700px 500px at 15% 10%, #6ea8d81a 0%, transparent 60%),
+    radial-gradient(700px 500px at 85% 20%, #f5c4511a 0%, transparent 60%),
+    linear-gradient(160deg,var(--bg1),var(--bg2) 55%,var(--night));
   color:var(--text);
   padding:24px;
+  position:relative;
+  overflow-x:hidden;
 }
-
-.wrap{width:min(980px,96vw);display:flex;flex-direction:column;gap:16px}
+/* ---------- CAMPO DE ESTRELLAS ---------- */
+.starfield{
+  position:fixed;inset:0;
+  pointer-events:none;
+  z-index:0;
+  overflow:hidden;
+}
+.star{
+  position:absolute;
+  background:#fff;
+  border-radius:50%;
+  opacity:.6;
+  animation:twinkle 3.5s ease-in-out infinite;
+}
+@keyframes twinkle{
+  0%,100%{opacity:.15;transform:scale(.8)}
+  50%{opacity:.9;transform:scale(1.2)}
+}
+.wrap{width:min(980px,96vw);display:flex;flex-direction:column;gap:16px;position:relative;z-index:1}
 .card{
   border:1px solid var(--stroke);
   background:var(--card);
   backdrop-filter: blur(10px);
   border-radius:18px;
   padding:18px;
-  box-shadow:0 24px 60px rgba(0,0,0,.55);
+  box-shadow:0 24px 60px rgba(0,0,0,.6);
 }
-.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.title{font-size:18px;font-weight:800}
-
-.dots{display:flex;gap:8px}
-.dot{width:10px;height:10px;border-radius:50%;background:#ffffff33}
-.dot.active{background:var(--accent)}
-
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-family:system-ui,sans-serif}
+.title{font-size:18px;font-weight:800;font-family:'Georgia',serif;letter-spacing:.3px}
+.title small{display:block;font-size:11px;font-weight:400;color:var(--muted);font-style:italic}
+.dots{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.dot{width:9px;height:9px;border-radius:50%;background:#ffffff33}
+.dot.active{background:var(--gold);box-shadow:0 0 8px var(--gold)}
 /* STAGE + transición */
 .stage{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:14px;min-height:62vh;
+  gap:16px;min-height:62vh;
   opacity:1;transform:translateY(0);
   transition:opacity .35s ease,transform .35s ease;
 }
 .stage.fade{opacity:0;transform:translateY(10px)}
-
 .intro{text-align:center;max-width:720px}
-.intro h1{font-size:28px;margin:0 0 10px}
-.intro p{color:var(--muted);line-height:1.6}
-
-img{
-  width:100%;max-width:900px;max-height:62vh;
-  object-fit:contain;border-radius:16px;
-  box-shadow:0 22px 55px rgba(0,0,0,.6);
+.intro .icon{font-size:34px;margin-bottom:6px}
+.intro h1{font-size:26px;margin:0 0 4px;font-style:italic}
+.intro h2{font-size:14px;margin:0 0 14px;color:var(--gold);font-weight:400;font-style:italic}
+.intro p{color:var(--muted);line-height:1.7;font-family:system-ui,sans-serif;font-size:14px}
+.small{font-size:12px;opacity:.7;text-align:center;margin-top:8px;font-family:system-ui,sans-serif}
+/* Marco tipo "ventana de asteroide" para foto/video */
+.frame{
+  position:relative;
   display:none;
+  width:100%;max-width:820px;
+  padding:10px;
+  border-radius:20px;
+  background:linear-gradient(135deg,#ffffff10,#ffffff02);
+  border:1px solid var(--stroke);
+  box-shadow:0 22px 55px rgba(0,0,0,.6);
 }
-
+.frame img, .frame video{
+  width:100%;max-height:56vh;
+  object-fit:contain;border-radius:14px;
+  display:block;background:#000;
+}
+.frame .badge{
+  position:absolute;top:-14px;right:14px;
+  font-size:22px;
+  background:var(--night);
+  border:1px solid var(--stroke);
+  border-radius:50%;
+  width:38px;height:38px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 16px rgba(0,0,0,.5);
+}
+.frame .caption{
+  text-align:center;margin-top:10px;color:var(--muted);
+  font-size:13px;font-style:italic;font-family:system-ui,sans-serif;
+}
 /* Caja de frases */
 .phraseBox{
   display:none;
-  max-width:900px;width:100%;
+  max-width:820px;width:100%;
   border:1px solid var(--stroke);
-  background:#ffffff0f;
-  border-radius:16px;
-  padding:18px;
+  background:#ffffff08;
+  border-radius:18px;
+  padding:24px 20px;
   text-align:center;
 }
 .phraseTag{
-  display:inline-block;font-size:12px;opacity:.75;
-  padding:6px 10px;border:1px solid var(--stroke);
-  border-radius:999px;background:#ffffff10;margin-bottom:8px;
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;opacity:.85;font-family:system-ui,sans-serif;
+  padding:6px 12px;border:1px solid var(--stroke);
+  border-radius:999px;background:#ffffff10;margin-bottom:12px;
+  color:var(--gold);
 }
 .phraseText{
-  font-size:18px;color:var(--muted);
-  line-height:1.55;min-height:40px;
+  font-size:19px;color:var(--muted);
+  line-height:1.7;min-height:44px;font-style:italic;
 }
-
 /* Typewriter */
 .typewriter::after{
   content:"|";margin-left:4px;animation:blink .9s infinite;
 }
 @keyframes blink{50%{opacity:0}}
-
-/* CARTA ANIMADA */
-.letterBox{
+/* ---------- ESCENA FINAL: bajo las estrellas ---------- */
+.finale{
   display:none;
+  width:100%;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  position:relative;
+}
+.finale .sky{
+  position:relative;
+  width:100%;
+  max-width:640px;
+  min-height:170px;
+  border-radius:16px;
+  overflow:hidden;
+  margin-bottom:4px;
+}
+.finale .skyStars{position:absolute;inset:0}
+.finale .prince{
+  position:relative;
+  display:flex;flex-direction:column;align-items:center;
+  gap:4px;padding-top:18px;
+}
+.finale .prince svg{width:70px;height:auto;filter:drop-shadow(0 6px 10px rgba(0,0,0,.5))}
+.finale .prince .quote{
+  font-size:13px;color:var(--gold);font-style:italic;text-align:center;
+  max-width:420px;margin-top:4px;
+}
+.finaleTitle{
+  text-align:center;font-size:16px;color:var(--gold);font-style:italic;margin:0 0 2px;
+}
+/* CARTA ANIMADA — pergamino */
+.letterBox{
   max-width:600px;
   width:100%;
   position:relative;
   perspective:1000px;
 }
-
 .envelope{
   position:relative;
   width:100%;
-  height:280px;
-  background:linear-gradient(135deg, #ff4fb2, #7c5cff);
+  height:270px;
+  background:linear-gradient(135deg, var(--gold), var(--blue));
   border-radius:8px;
   box-shadow:0 20px 60px rgba(0,0,0,.5);
   cursor:pointer;
   transition:transform .3s ease;
 }
-
 .envelope:hover{
   transform:translateY(-5px);
 }
-
 .envelope.opened{
   cursor:default;
 }
-
 .envelopeFlap{
   position:absolute;
   top:0;
   left:0;
   width:100%;
   height:50%;
-  background:linear-gradient(135deg, #ff6bc280, #9d7cff80);
+  background:linear-gradient(135deg, #f5c45180, #6ea8d880);
   border-radius:8px 8px 0 0;
   transform-origin:top center;
   transition:transform .8s ease;
   border-bottom:2px solid rgba(255,255,255,.3);
   z-index:2;
 }
-
 .envelope.opened .envelopeFlap{
   transform:rotateX(-180deg);
 }
-
 .envelopeLabel{
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%, -50%);
-  font-size:18px;
-  font-weight:800;
-  color:white;
-  text-shadow:0 2px 10px rgba(0,0,0,.3);
+  font-size:16px;
+  font-weight:700;
+  font-style:italic;
+  color:#20143a;
+  text-shadow:0 2px 8px rgba(255,255,255,.25);
   transition:opacity .4s ease;
   z-index:1;
+  text-align:center;
 }
-
 .envelope.opened .envelopeLabel{
   opacity:0;
 }
-
 .letter{
   position:absolute;
   top:20px;
   left:50%;
   transform:translateX(-50%) translateY(0);
   width:90%;
-  background:linear-gradient(to bottom, #fffef7, #fff9e6);
+  background:linear-gradient(to bottom, #fdf6e3, #f6ecc9);
   border-radius:8px;
   padding:30px 25px;
   box-shadow:0 10px 40px rgba(0,0,0,.3);
@@ -175,57 +243,49 @@ img{
   transition:all 1s ease;
   z-index:3;
 }
-
 .envelope.opened .letter{
   opacity:1;
-  transform:translateX(-50%) translateY(-140px);
+  transform:translateX(-50%) translateY(-130px);
 }
-
 .letterContent{
-  color:#2d2d2d;
-  line-height:1.7;
+  color:#2d2417;
+  line-height:1.75;
   font-size:15px;
 }
-
 .letterContent p{
   margin:0 0 12px;
 }
-
 .letterContent .greeting{
   font-size:17px;
-  font-weight:800;
+  font-weight:700;
   margin-bottom:15px;
-  color:#ff4fb2;
+  color:var(--rose);
   font-style:italic;
 }
-
 .letterContent .signature{
   text-align:right;
   margin-top:20px;
   font-size:16px;
-  font-weight:800;
-  color:#7c5cff;
+  font-weight:700;
+  color:var(--blue);
   font-style:italic;
 }
-
 .finalButtons{
   display:none;
-  margin-top:160px;
+  margin-top:150px;
   gap:10px;
   justify-content:center;
   flex-wrap:wrap;
   animation:fadeInUp 1s ease forwards;
+  font-family:system-ui,sans-serif;
 }
-
 .finalButtons.show{
   display:flex;
 }
-
 @keyframes fadeInUp{
   from{opacity:0;transform:translateY(20px)}
   to{opacity:1;transform:translateY(0)}
 }
-
 .answer{
   display:none;
   margin-top:12px;
@@ -235,124 +295,147 @@ img{
   background:#ffffff12;
   color:var(--muted);
   text-align:center;
+  font-family:system-ui,sans-serif;
 }
 .answer.show{display:block}
-
-.controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;font-family:system-ui,sans-serif}
 button{
-  border:1px solid var(--stroke);background:#ffffff10;color:#fff;
-  padding:12px 14px;border-radius:14px;font-weight:800;cursor:pointer;
-  transition:all .2s ease;
+  border:1px solid var(--stroke);background:#ffffff10;color:var(--text);
+  padding:12px 14px;border-radius:14px;font-weight:700;cursor:pointer;
+  transition:all .2s ease;font-family:system-ui,sans-serif;
 }
-button.primary{border:none;background:linear-gradient(135deg,#ff4fb2,#7c5cff)}
+button.primary{border:none;background:linear-gradient(135deg,var(--gold),var(--rose));color:#20143a}
 button.ghost{background:transparent}
 button:hover{transform:translateY(-1px)}
-
-.small{font-size:12px;opacity:.7;text-align:center;margin-top:8px}
-
 @media(max-width:520px){
-  .intro h1{font-size:22px}
-  img{max-height:56vh}
-  .phraseText{font-size:16px}
-  .letterContent{font-size:13px;line-height:1.6}
+  .intro h1{font-size:21px}
+  .phraseText{font-size:17px}
+  .letterContent{font-size:13px;line-height:1.65}
   .letter{padding:20px 15px}
-  .envelope{height:240px}
-  .finalButtons{margin-top:120px}
+  .envelope{height:230px}
+  .finalButtons{margin-top:115px}
+  .frame img,.frame video{max-height:44vh}
 }
 </style>
 </head>
-
 <body>
+<div class="starfield" id="starfieldGlobal"></div>
 <div class="wrap">
-
   <div class="card">
     <div class="top">
-      <div class="title">Maria Camila 💙</div>
+      <div class="title">Maria Camila 🌹<small>inspirado en El Principito</small></div>
       <div class="dots" id="dots"></div>
     </div>
-
     <div class="stage" id="stage">
-
       <!-- INTRO -->
       <div class="intro" id="intro">
+        <div class="icon">🪐</div>
         <h1>Maria Camila Velez</h1>
-        <p>Quiero decirte qué...<br></p>
+        <h2>"Solo se ve bien con el corazón..."</h2>
+        <p>Quiero contarte algo, a mi manera. Ven, acompáñame por un ratito.</p>
         <p class="small">Pulsa "Iniciar"</p>
       </div>
-
       <!-- FRASE -->
       <div class="phraseBox" id="phraseBox">
         <div class="phraseTag" id="phraseTag"></div>
         <div class="phraseText" id="phraseText"></div>
       </div>
-
       <!-- FOTO -->
-      <img id="photo" alt="foto">
-
-      <!-- CARTA FINAL -->
-      <div class="letterBox" id="letterBox">
-        <div class="envelope" id="envelope">
-          <div class="envelopeFlap"></div>
-          <div class="envelopeLabel">💌 Toca para abrir 💌</div>
-          
-          <div class="letter">
-            <div class="letterContent">
-              <p class="greeting">Mi amor,</p>
-              
-              <p>Quiero que sepas algo importante: me siento increíblemente afortunado de tenerte en mi vida. Cada día a tu lado es un regalo que valoro profundamente.</p>
-              
-              <p>Eres una mujer extraordinaria, fuerte, brillante y con un corazón hermoso. A veces las palabras se quedan cortas para expresar todo lo que significas para mí.</p>
-              
-              <p>Quiero recordarte algo que nunca debes olvidar: vales muchísimo. Tu valor no lo determina nadie más que tú misma. Eres suficiente, eres completa, eres increíble tal como eres.</p>
-              
-              <p>Nunca aceptes menos de lo que mereces, nunca permitas que alguien apague tu luz o cuestione tu valor. Porque créeme cuando te digo: vales oro.</p>
-              
-              <p>Y yo estaré aquí, a tu lado, admirándote y apoyándote siempre.</p>
-              
-              <p class="signature">Con todo mi amor,<br>Danny 💙</p>
-            </div>
+      <div class="frame" id="photoFrame">
+        <div class="badge" id="photoBadge">🪐</div>
+        <img id="photo" alt="foto">
+      </div>
+      <!-- ESCENA FINAL (PENÚLTIMA): BAJO LAS ESTRELLAS -->
+      <div class="finale" id="finale">
+        <div class="finaleTitle">🌌 Bajo el mismo cielo</div>
+        <div class="sky">
+          <div class="skyStars" id="skyStars"></div>
+          <div class="prince">
+            <svg viewBox="0 0 100 140" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="50" cy="128" rx="34" ry="8" fill="#0c1a44"/>
+              <circle cx="50" cy="128" r="6" fill="var(--gold)"/>
+              <path d="M50 60 C40 70 38 95 42 120 L58 120 C62 95 60 70 50 60 Z" fill="#fdf6e3"/>
+              <path d="M42 68 C25 75 20 100 30 118 L42 118 C36 100 38 82 42 68 Z" fill="var(--blue)"/>
+              <circle cx="50" cy="48" r="12" fill="#fdf6e3"/>
+              <path d="M50 40 C45 30 55 30 50 40" fill="none" stroke="var(--gold)" stroke-width="2"/>
+              <circle cx="70" cy="90" r="4" fill="var(--rose)"/>
+            </svg>
+            <div class="quote">"Lo esencial es invisible a los ojos, y tú se lo diste sentido a los míos."</div>
           </div>
         </div>
+        <div class="letterBox" id="letterBox">
+          <div class="envelope" id="envelope">
+            <div class="envelopeFlap"></div>
+            <div class="envelopeLabel">🌹 Toca para abrir<br>esta carta 🌹</div>
 
-        <div class="finalButtons" id="finalButtons">
-          <button class="primary" id="btnCafe">☕ Te</button>
-          <button id="btnSonrisa">😊 Quiero</button>
-          <button class="ghost" id="btnSinPresion">🫶 Con mi alma</button>
+            <div class="letter">
+              <div class="letterContent">
+                <p class="greeting">Hola mi niña,</p>
+
+                <p>Esto lo escribo desde el pasado. Sí, desde el momento en que nos dejamos de hablar.</p>
+
+                <p>Hoy es tu día, y te deseo un feliz cumpleaños. Quizás estas palabras ya no importen, pero para mí significan mucho: me siento muy feliz de la mujer que eres y que fuiste conmigo. Te amé, y creo que aún te amo. Fuiste, eres y serás alguien muy especial en mi vida. Te agradezco por compartir de tu tiempo — no dimensionas cuánto.</p>
+
+                <p>Porque no eres una más entre miles: eres tú, con tus espinas y tu perfume, la que yo elegí regar todos los días.</p>
+
+                <p>Quizás no fui suficiente, o no di lo mejor de mí para darte lo que querías, para hacerte feliz. Lo acepto. Acepto que no te comprendí bien, que pocas veces me puse en tu lugar. En mi afán y preocupación por llevar las cosas bien, te presioné, te juzgué y te hice daño. Ya no importa, pero me disculpo por eso.</p>
+
+                <p>Confío mucho en ti, en quien eres como persona y como mujer. Sé que lograrás todo lo que me contabas, tus metas y tus sueños. Extrañaré mucho dormir a tu lado; son momentos que no cambio por nada.</p>
+
+                <p>Estaré en aquel lugar que nadie más conoce, pero que tú y yo sí conocemos. Y aunque a veces la vida nos lleve por caminos distintos, como al Principito y su rosa, yo siempre volveré a mirar el cielo pensando en ti.</p>
+
+                <p class="signature">Te amo hoy y todos los días,<br>Danny 💙</p>
+              </div>
+            </div>
+          </div>
+          <div class="finalButtons" id="finalButtons">
+            <button class="primary" id="btnCafe">☕ Te</button>
+            <button id="btnSonrisa">😊 Quiero</button>
+            <button class="ghost" id="btnSinPresion">🫶 Con mi alma</button>
+          </div>
+
+          <div class="answer" id="answer"></div>
         </div>
-        
-        <div class="answer" id="answer"></div>
       </div>
-
+      <!-- VIDEO (ÚLTIMO) -->
+      <div class="frame" id="videoFrame">
+        <div class="badge">✨</div>
+        <video id="momentVideo" controls playsinline>
+          <source src="video.mp4" type="video/mp4">
+          Tu navegador no soporta video HTML5.
+        </video>
+        <div class="caption">Para cerrar, esto es para ti 💙</div>
+      </div>
     </div>
   </div>
-
   <div class="controls">
     <button class="primary" id="btnStart">▶ Iniciar</button>
     <button id="btnBack" disabled>⏮ Atrás</button>
     <button id="btnNext" disabled>⏭ Continuar</button>
     <button class="ghost" id="btnMusic" disabled>🔈 Música</button>
   </div>
-
   <audio id="audio" loop>
     <source src="musica.mp3" type="audio/mpeg">
   </audio>
-
 </div>
-
 <script>
-/* CONFIG */
-const PHOTOS=["foto1.jpg","foto2.jpg","foto3.jpg","foto4.jpg"];
+/* CONFIG ---------------------------------------------------------
+   Para agregar/quitar momentos edita PHOTOS, PHRASES y MOTIFS
+   (las tres deben tener la MISMA cantidad de elementos, mismo orden).
+   Orden final: momentos -> escena de estrellas (carta) -> video.
+------------------------------------------------------------------*/
+const PHOTOS=["foto1.jpg","foto2.jpg","foto3.jpg","foto4.jpg","foto5.jpg","foto6.jpg","foto7.jpg"];
+const MOTIFS=["🌹","🦊","⭐","🪐","🌙","✨","👣"];
 const PHRASES=[
-  "Desde que llegaste a mi vida, todo tiene un significado más profundo  ✨✨",
-  "Contigo siento que puedo ser yo mismo y, al mismo tiempo, querer ser una mejor versión de mí.🤓",
-  "Podría pasar horas a tu lado y aún así sentir que el tiempo fue demasiado corto.",
-  "Te quiero y no imaginas cuanto❤️"
+  "Cuando te conocí, desde un inicio supe que eras la mujer de mi vida.",
+  "Te agradezco por haberme hecho tan feliz, nunca lo olvidaré.",
+  "en algún punto de mi vida, fuiste lo más importante que tuve.",
+  "Tu mirada siempre me dará tranquilidad., verte sonreir fue una de las mejores cosas que me pudiste dar",
+  "No necesito ver mucho para saber que lo más importante eras tú.",
+  "Momentos únicos que atesoraré en mi corazón.",
+  "Siempre fuiste mi más linda y amada rosa. Con tus defectos, tus carencias e inperfecciones. Aunque lo dudes, tu esencia y tu forma de ser fue algo que siempre amé, y solo eso, te hacía única e irrepetible ante las demás. Te amo mucho mi rosa bella."
 ];
-const RESPUESTAS={
-  cafe:"Te ☕",
-  sonrisa:"Quiero 😊",
-  sinpresion:"Con mi alma 🫶"
-};
+const VIDEO_SRC="video.mp4"; // reemplaza este archivo por tu video
 
 /* ELEMENTOS */
 const stage=document.getElementById("stage");
@@ -360,18 +443,48 @@ const intro=document.getElementById("intro");
 const phraseBox=document.getElementById("phraseBox");
 const phraseText=document.getElementById("phraseText");
 const phraseTag=document.getElementById("phraseTag");
+const photoFrame=document.getElementById("photoFrame");
 const photo=document.getElementById("photo");
-const letterBox=document.getElementById("letterBox");
+const videoFrame=document.getElementById("videoFrame");
+const momentVideo=document.getElementById("momentVideo");
+const finale=document.getElementById("finale");
 const envelope=document.getElementById("envelope");
 const finalButtons=document.getElementById("finalButtons");
 const answer=document.getElementById("answer");
 const dots=document.getElementById("dots");
-
 const btnStart=document.getElementById("btnStart");
 const btnBack=document.getElementById("btnBack");
 const btnNext=document.getElementById("btnNext");
 const btnMusic=document.getElementById("btnMusic");
 const audio=document.getElementById("audio");
+
+momentVideo.src=VIDEO_SRC;
+
+/* ---------- ESTRELLAS ---------- */
+function paintStars(container,count,opts={}){
+  const {minSize=1,maxSize=3,maxDelay=4} = opts;
+  const frag=document.createDocumentFragment();
+  for(let i=0;i<count;i++){
+    const s=document.createElement("div");
+    s.className="star";
+    const size=(Math.random()*(maxSize-minSize)+minSize).toFixed(1);
+    s.style.width=size+"px";
+    s.style.height=size+"px";
+    s.style.top=(Math.random()*100)+"%";
+    s.style.left=(Math.random()*100)+"%";
+    s.style.animationDelay=(Math.random()*maxDelay)+"s";
+    frag.appendChild(s);
+  }
+  container.appendChild(frag);
+}
+paintStars(document.getElementById("starfieldGlobal"),70,{maxSize:2,maxDelay:5});
+paintStars(document.getElementById("skyStars"),90,{maxSize:2.5,maxDelay:4});
+
+/* PASOS: por cada momento hay 2 pasos (frase, foto).
+   Luego 1 paso de escena final (estrellas + carta), luego 1 paso de video (cierre). */
+const N=PHRASES.length;
+const FINALE_STEP=N*2;
+const VIDEO_STEP=N*2+1;
 
 /* DOTS */
 const dotEls=[];
@@ -402,42 +515,45 @@ envelope.onclick=()=>{
 function render(){
   intro.style.display="none";
   phraseBox.style.display="none";
-  photo.style.display="none";
-  letterBox.style.display="none";
-  
-  btnBack.disabled=!started||step<=-1;
-  btnNext.disabled=!started||step>=8;
+  photoFrame.style.display="none";
+  videoFrame.style.display="none";
+  finale.style.display="none";
 
+  btnBack.disabled=!started||step<=-1;
+  btnNext.disabled=!started||step>=VIDEO_STEP;
   dotEls.forEach(d=>d.classList.remove("active"));
 
   if(step===-1){
     intro.style.display="block";
     return;
   }
-
-  if(step%2===0 && step<=6){
-    const i=step/2;
-    phraseBox.style.display="block";
-    phraseTag.textContent="Momento "+(i+1);
-    typeText(phraseText,PHRASES[i]);
+  if(step>=0 && step<N*2){
+    if(step%2===0){
+      const i=step/2;
+      phraseBox.style.display="block";
+      phraseTag.innerHTML=MOTIFS[i]+" Momento "+(i+1);
+      typeText(phraseText,PHRASES[i]);
+      return;
+    }else{
+      const i=(step-1)/2;
+      photo.src=PHOTOS[i];
+      photoFrame.style.display="block";
+      dotEls[i].classList.add("active");
+      return;
+    }
+  }
+  if(step===FINALE_STEP){
+    finale.style.display="flex";
     return;
   }
-
-  if(step%2===1 && step<=7){
-    const i=(step-1)/2;
-    photo.src=PHOTOS[i];
-    photo.style.display="block";
-    dotEls[i].classList.add("active");
-    return;
-  }
-
-  if(step===8){
-    letterBox.style.display="block";
+  if(step===VIDEO_STEP){
+    videoFrame.style.display="block";
   }
 }
 
 /* TRANSICIÓN */
 function go(n){
+  momentVideo.pause();
   stage.classList.add("fade");
   setTimeout(()=>{
     step=n;
@@ -455,25 +571,21 @@ btnStart.onclick=()=>{
   go(0);
   toggleMusic(true);
 };
-
 btnNext.onclick=()=>{
-  if(step<8) go(step+1);
+  if(step<VIDEO_STEP) go(step+1);
 };
-
 btnBack.onclick=()=>{
   if(step>-1){
-    // Si vamos hacia atrás desde la carta, resetear el estado
-    if(step===8){
+    if(step===FINALE_STEP){
       letterOpened=false;
       envelope.classList.remove("opened");
       finalButtons.classList.remove("show");
+      answer.classList.remove("show");
     }
     go(step-1);
   }
 };
-
 btnMusic.onclick=()=>toggleMusic();
-
 function toggleMusic(force){
   const on=force??!musicOn;
   if(on){
@@ -485,16 +597,19 @@ function toggleMusic(force){
 }
 
 /* FINAL */
+const RESPUESTAS={
+  cafe:"Te ☕",
+  sonrisa:"Quiero 😊",
+  sinpresion:"Con mi alma 🫶"
+};
 document.getElementById("btnCafe").onclick=()=>{
   answer.textContent=RESPUESTAS.cafe;
   answer.classList.add("show");
 };
-
 document.getElementById("btnSonrisa").onclick=()=>{
   answer.textContent=RESPUESTAS.sonrisa;
   answer.classList.add("show");
 };
-
 document.getElementById("btnSinPresion").onclick=()=>{
   answer.textContent=RESPUESTAS.sinpresion;
   answer.classList.add("show");
